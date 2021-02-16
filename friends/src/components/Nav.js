@@ -1,36 +1,39 @@
 import React from "react";
-import logo from "../assests/Logo.png";
+//import { logo } from "../assests/Logo.png";
 import { Route, Link, Switch } from "react-router-dom";
 import Friends from "./Friends";
-import PrivateRoute from "./PrivateRoute";
+//import PrivateRoute from "./PrivateRoute";
 import Login from "./Login";
-import { axiosWithAuth } from "../utils/axiosWithAuth";
+//import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 const Nav = () => {
-  const logout = () => {
-    axiosWithAuth()
-      .post("/logout")
-      .catch((err) => {
-        console.error("unable to logout! Oh Nose!");
-      });
-    localStorage.removeItem("token");
-  };
+  // const logout = () => {
+  //   axiosWithAuth()
+  //     .post("/logout")
+  //     .catch((err) => {
+  //       console.error("unable to logout! Oh Nose!");
+  //     });
+  //   localStorage.removeItem("token");
+  // };
   return (
     <div>
       <nav>
         <Link to="/Login">Login</Link>
-        <Link to="/login" onClick={logout}>
+        {/* <Link to="/Login" onClick={logout}>
           Logout
-        </Link>
-        <Link to="/protected">Protected page</Link>
+        </Link> */}
+        <Link to="/Friends">Friends</Link>
+        {/* <Link to="/protected">Protected page</Link> */}
       </nav>
       <Switch>
-        <PrivateRoute exact path="/protected" component={Friends} />
+        {/* <PrivateRoute exact path="/protected" component={Friends} /> */}
+        <Route path="/friends" component={Friends} />
         <Route path="/login" component={Login} />
+        <Route component={Friends} />
         <Route component={Login} />
       </Switch>
       <h1>Friends</h1>
-      <img src={logo} alt="Logo" />
+      {/* <img src={logo} alt="Logo" /> */}
     </div>
   );
 };

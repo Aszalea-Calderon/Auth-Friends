@@ -1,42 +1,37 @@
 import React from "react";
-import { axiosWithAuth } from "../utils/axiosWithAuth";
+import { fetchFriend } from "../actions/index";
+import { connect } from "react-redux";
+import Friend from "./Friend";
+//import { axiosWithAuth } from "../utils/axiosWithAuth";
+
 class Friends extends React.Component {
-  state = {
-    friends: [],
-  };
-
+  //When the component loads, fetchFriend()
   componentDidMount() {
-    this.getData();
+    this.props.fetchFriend();
   }
-  getData = () => {
-    axiosWithAuth()
-      .get("/friends")
-      .then((res) => {
-        console.log("Dat Data", res);
-        this.setState({
-          friends: res.data.data, //!
-        });
-        console.log("friends", this.state.friends);
-      })
-      .catch((err) => {
-        console.error("Man Down! Error", err.message);
-      });
-  };
 
-  friend = () => {
-    const friendData = [];
-    this.state.friends.forEach((friend) => {
-      friendData.push();
-    });
-  };
   render() {
-    const friends = this.friend();
     return (
       <>
-        <h1>ya{friends.name}</h1>
+        {this.props.isLoading ? (
+          <h2>Loading Friends Village...</h2>
+        ) : (
+          this.props.friends.map((friend) => {
+            return <Friend friend={friend} key={friend.id} />;
+          })
+        )}
       </>
     );
   }
 }
 
-export default Friends;
+const mapStateToProps = (state) => {
+  return {
+    ...state,
+  };
+};
+const mapDispatchToProps = {
+  fetchFriend,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Friends);
